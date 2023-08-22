@@ -22,7 +22,6 @@ app.post('/', (req, res) => {
       const promise = new Promise((resolve, reject) => {
         const url = payload.SubscribeURL
         console.log(payload)
-        
         request(url, (error, response) => {
           if (!error && response.statusCode == 200) {
             console.log('Yess! We have accepted the confirmation from AWS')
@@ -36,6 +35,9 @@ app.post('/', (req, res) => {
       promise.then(() => {
         res.end("ok")
       })
+    } else {
+        console.log(payload)
+        res.status(200).send('OK');
     }
   })
 })
