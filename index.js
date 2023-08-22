@@ -21,6 +21,7 @@ app.post('/', (req, res) => {
     if (payload.Type === 'SubscriptionConfirmation') {
       const promise = new Promise((resolve, reject) => {
         const url = payload.SubscribeURL
+        console.log(payload)
         
         request(url, (error, response) => {
           if (!error && response.statusCode == 200) {
