@@ -4,6 +4,8 @@ const request = require('request')
 const bodyParser = require('body-parser')
 const app = express()
 const port = 8080
+const fs = require('fs');
+const logFileName = 'server-logs.txt';
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -37,9 +39,19 @@ app.post('/', (req, res) => {
       })
     } else {
         console.log(payload)
+        writeToLogFile(JSON.stringify(payload));
         res.status(200).send('OK');
     }
   })
 })
+
+function writeToLogFile(message) {
+  const logMessage = `${new Date().toISOString()} - ${message}\n`;
+  fs.appendFile(logFileName, logMessage, (err) => {
+    if (err) {
+      console.error('Error writing to log file:', err);
+    }
+  });
+}
 
 app.listen(port, () => console.log('Example app listening on port ' + port + '!'))
